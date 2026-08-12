@@ -1,0 +1,102 @@
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Inventário de Dados BDR // Core{% endblock %}
+
+{% block content %}
+<style>
+    /* Estilização da tabela de dados */
+    .table-tech { color: #E5E7EB; border-collapse: separate; border-spacing: 0 4px; }
+    .table-tech thead th { border: none; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); padding-bottom: 12px;}
+    .table-tech tbody tr { background-color: rgba(255,255,255,0.02); transition: all 0.2s ease; }
+    .table-tech tbody tr:hover { background-color: rgba(255,255,255,0.05); box-shadow: inset 3px 0 0 var(--accent-cyan); }
+    .table-tech td { border-top: 1px solid var(--border-tech); border-bottom: 1px solid var(--border-tech); padding: 14px 12px; }
+    .table-tech td:first-child { border-left: 1px solid var(--border-tech); border-radius: 6px 0 0 6px; }
+    .table-tech td:last-child { border-right: 1px solid var(--border-tech); border-radius: 0 6px 6px 0; }
+    
+    /* Custom Input de Busca */
+    .search-tech { background-color: rgba(0,0,0,0.2) !important; border: 1px solid var(--border-tech) !important; color: #FFF !important; }
+    .search-tech:focus { border-color: var(--accent-cyan) !important; box-shadow: 0 0 10px rgba(0,240,255,0.15) !important; }
+    
+    /* Botões Técnicos */
+    .btn-cyan { background: transparent; border: 1px solid var(--accent-cyan); color: var(--accent-cyan); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.5px; transition: all 0.3s; }
+    .btn-cyan:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 15px rgba(0,240,255,0.3); }
+</style>
+
+<div class="card card-tech p-4">
+    <!-- Header Operacional -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div>
+            <span class="tech-mono text-info small d-block mb-1">// BDR_DATA_MANAGEMENT</span>
+            <h3 class="mb-0 fw-bold" style="letter-spacing: -0.5px;">Monitoramento do Acervo BDR</h3>
+        </div>
+        <a href="{% url 'livro_create' %}" class="btn btn-cyan px-4 py-2 rounded-3 d-inline-flex align-items-center">
+            <i class="bi bi-plus-lg me-2"></i> INSERIR NÓ BDR
+        </a>
+    </div>
+
+    <!-- Barra de Consulta Filtrada -->
+    <form method="GET" action="{% url 'livro_list' %}" class="row g-2 mb-4">
+        <div class="col-md-10">
+            <div class="input-group">
+                <span class="input-group-text search-tech"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" name="busca" class="form-control search-tech" placeholder="Filtrar registro por String de Título, Autor ou padrão ISBN..." value="{{ request.GET.busca }}">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-secondary tech-mono w-100 py-2 border-0" style="background-color: #1F2937; color: #E5E7EB;">FILTRAR</button>
+        </div>
+    </form>
+
+    <!-- Tabela de Banco de Dados -->
+    <div class="table-responsive">
+        <table class="table table-tech align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Identificador / Título</th>
+                    <th>Autor</th>
+                    <th>ISBN-13</th>
+                    <th>Ano</th>
+                    <th class="text-center">Status Estoque</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for livro in livros %}
+                <tr>
+                    <td>
+                        <span class="d-block fw-semibold text-white">{{ livro.titulo }}</span>
+                    </td>
+                    <td class="text-muted">{{ livro.autor }}</td>
+                    <td><code class="text-info" style="font-size: 0.85rem;">{{ livro.isbn }}</code></td>
+                    <td class="tech-mono text-muted">{{ livro.ano_publicacao }}</td>
+                    <td class="text-center">
+                        {% if livro.quantidade > 0 %}
+                            <span class="tech-mono small px-3 py-1 rounded" style="background: rgba(0, 255, 133, 0.1); border: 1px solid var(--accent-green); color: var(--accent-green);">
+                                {{ livro.quantidade }} UNITS
+                            </span>
+                        {% else %}
+                            <span class="tech-mono small px-3 py-1 rounded" style="background: rgba(255, 59, 48, 0.1); border: 1px solid var(--accent-red); color: var(--accent-red);">
+                                DEPLETED
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <a href="{% url 'livro_update' livro.pk %}" class="btn btn-sm btn-outline-light border-0 p-2 text-info" title="Editar Entrada"><i class="bi bi-sliders"></i></a>
+                            <a href="{% url 'livro_delete' livro.pk %}" class="btn btn-sm btn-outline-light border-0 p-2 text-danger" title="Expurgar"><i class="bi bi-trash3"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-5 text-muted bg-transparent">
+                        <i class="bi bi-cpu-fill fs-2 d-block mb-3" style="color: var(--border-tech)"></i>
+                        <span class="tech-mono small d-block">// BDR_INDEX_NOT_FOUND: Nenhum vetor de dados localizado.</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

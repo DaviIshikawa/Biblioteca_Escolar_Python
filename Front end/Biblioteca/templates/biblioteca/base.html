@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Biblioteca Escolar BDR // Core{% endblock %}</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <!-- Google Fonts (Inter e JetBrains Mono para dados numéricos) -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-main: #0B0F19;
+            --bg-card: #111827;
+            --border-tech: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #00F0FF;
+            --accent-green: #00FF85;
+            --accent-red: #FF3B30;
+            --text-muted: #9CA3AF;
+        }
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main); 
+            color: #E5E7EB;
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        code, .tech-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Navbar Flutuante Futurista */
+        .navbar-tech {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-tech);
+        }
+        .nav-link-tech {
+            color: var(--text-muted) !important;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        .nav-link-tech:hover, .nav-link-tech.active {
+            color: var(--accent-cyan) !important;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+        }
+        /* Cards Estilo Terminal de Operação */
+        .card-tech {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-tech);
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        /* Alertas Customizados */
+        .alert-tech {
+            background: rgba(17, 24, 39, 0.9);
+            border: 1px solid var(--accent-cyan);
+            color: #FFF;
+            border-radius: 8px;
+        }
+        main { flex: 1; }
+        footer {
+            border-top: 1px solid var(--border-tech);
+            background-color: #070A10;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Terminal Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-tech sticky-top py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'livro_list' %}">
+                <div class="bg-dark rounded-3 p-2 me-2 border d-inline-flex" style="border-color: var(--accent-cyan) !important; box-shadow: 0 0 15px rgba(0,240,255,0.2)">
+                    <i class="bi bi-cpu text-info fs-5"></i>
+                </div>
+                <span class="fw-bold tracking-wider" style="color: #FFF;">BIBLIOTECA ESCOLAR <span style="color: var(--accent-cyan);">BDR</span></span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-tech" href="{% url 'livro_list' %}"><i class="bi bi-terminal me-1"></i> CONSOLE</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-tech" href="{% url 'livro_create' %}"><i class="bi bi-plus-square me-1"></i> REGISTRAR</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-tech text-warning" href="/admin/" target="_blank"><i class="bi bi-database-fill-lock me-1"></i> BDR_ADMIN</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sistema de Telemetria de Mensagens -->
+    <div class="container mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-tech alert-dismissible fade show" role="alert">
+                    <span class="tech-mono text-info">[BDR_SYSTEM_LOG]:</span> {{ message }}
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Main Workspace -->
+    <main class="container my-4">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer Corporativo -->
+    <footer class="text-center py-3 text-muted small mt-auto">
+        <div class="container tech-mono" style="font-size: 0.75rem; letter-spacing: 1px;">
+            BDR ESCOLAR CONTROL SYSTEM // STATUS: <span style="color: var(--accent-green)">ONLINE</span> // DATA_NODE: SQLITE3
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5.3 JS Bundle -->
+    <script src="https://jsdelivr.net"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Configuração BDR // Core{% endblock %}
+
+{% block content %}
+<style>
+    .form-tech-input {
+        background-color: rgba(0, 0, 0, 0.2) !important;
+        border: 1px solid var(--border-tech) !important;
+        color: #FFF !important;
+        border-radius: 8px !important;
+        padding: 10px 14px;
+        transition: all 0.2s ease;
+    }
+    .form-tech-input:focus {
+        border-color: var(--accent-cyan) !important;
+        box-shadow: 0 0 12px rgba(0, 240, 255, 0.2) !important;
+    }
+    .input-group-text-tech {
+        background-color: #1F2937 !important;
+        border: 1px solid var(--border-tech) !important;
+        color: var(--text-muted) !important;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-xl-6 col-lg-8">
+        <div class="card card-tech p-4">
+            <div class="border-bottom pb-3 mb-4" style="border-color: var(--border-tech) !important;">
+                <span class="tech-mono text-warning small d-block mb-1">// BDR_INPUT_BUFFER</span>
+                <h4 class="mb-0 fw-bold">
+                    {% if object %}Modificar Estrutura BDR: {{ object.titulo }}{% else %}Alocar Registro Biblioteca BDR{% endif %}
+                </h4>
+            </div>
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label tech-mono small" style="color: var(--text-muted); font-weight: 500;">
+                            {{ field.label|upper }}
+                        </label>
+                        
+                        <div class="input-group">
+                            <span class="input-group-text input-group-text-tech">
+                                {% if "titulo" in field.name %}<i class="bi bi-file-earmark-code"></i>{% endif %}
+                                {% if "autor" in field.name %}<i class="bi bi-person"></i>{% endif %}
+                                {% if "isbn" in field.name %}<i class="bi bi-hash"></i>{% endif %}
+                                {% if "ano" in field.name %}<i class="bi bi-calendar3"></i>{% endif %}
+                                {% if "quant" in field.name %}<i class="bi bi-layers"></i>{% endif %}
+                            </span>
+                            
+                            <input type="{{ field.field.widget.input_type|default:'text' }}" 
+                                   name="{{ field.html_name }}" 
+                                   id="{{ field.id_for_label }}"
+                                   class="form-control form-tech-input {% if field.errors %}is-invalid{% endif %}"
+                                   value="{{ field.value|default:'' }}"
+                                   {% if field.field.required %}required{% endif %}>
+                        </div>
+
+                        {% if field.help_text %}
+                            <div class="form-text tech-mono text-muted" style="font-size: 0.7rem;">// {{ field.help_text }}</div>
+                        {% endif %}
+                        
+                        {% for error in field.errors %}
+                            <div class="text-danger tech-mono small mt-1" style="font-size: 0.75rem;">
+                                <i class="bi bi-terminal-x"></i> FIELD_ERROR: {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                <!-- Ações Operacionais -->
+                <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top" style="border-color: var(--border-tech) !important;">
+                    <a href="{% url 'livro_list' %}" class="btn tech-mono btn-sm px-3 text-muted" style="background: transparent; border: none;">[ABORT]</a>
+                    <button type="submit" class="btn btn-cyan tech-mono px-4">
+                        <i class="bi bi-shield-check me-2"></i> INJETAR_DADOS_BDR
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
