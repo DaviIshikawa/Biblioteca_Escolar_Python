@@ -1,26 +1,44 @@
 {% extends 'livros/base.html' %}
 
-{% block title %}Acervo - Biblioteca Escolar{% endblock %}
+{% block title %}Pesquisa - Biblioteca Escolar{% endblock %}
 
 {% block content %}
 <div class="page-title">
-    <h1><i class="bi bi-book-fill"></i> Acervo da Biblioteca</h1>
-    <p class="text-muted">Consulte os livros disponíveis em nosso acervo</p>
+    <h1><i class="bi bi-search"></i> Resultados de Pesquisa</h1>
+    <p class="text-muted">Livros encontrados na busca</p>
 </div>
 
 <div class="search-container">
-    <form method="GET" action="{% url 'pesquisar_livros' %}" class="row g-3">
-        <div class="col-md-8">
+    <form method="GET" class="row g-3">
+        <div class="col-md-6">
             <input type="text" name="q" class="form-control" placeholder="Pesquisar por título, autor ou ISBN..."
-                value="{{ request.GET.q|default:'' }}">
+                value="{{ termo }}">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+            <select name="disponivel" class="form-select">
+                <option value="">Todas as disponibilidades</option>
+                <option value="sim" {% if disponibilidade=='sim' %}selected{% endif %}>Disponível</option>
+                <option value="nao" {% if disponibilidade=='nao' %}selected{% endif %}>Indisponível</option>
+            </select>
+        </div>
+        <div class="col-md-3">
             <button type="submit" class="btn btn-primary w-100">
                 <i class="bi bi-search"></i> Pesquisar
             </button>
         </div>
     </form>
 </div>
+
+{% if termo %}
+<div class="alert alert-info">
+    <strong>Pesquisar por:</strong> "{{ termo }}"
+    {% if disponibilidade == 'sim' %}
+    <span class="badge bg-success">Disponível</span>
+    {% elif disponibilidade == 'nao' %}
+    <span class="badge bg-danger">Indisponível</span>
+    {% endif %}
+</div>
+{% endif %}
 
 <div class="row g-4">
     {% for livro in livros %}
@@ -76,9 +94,9 @@
         <div class="alert alert-info text-center py-5">
             <i class="bi bi-inbox" style="font-size: 3rem;"></i>
             <h5 class="mt-3">Nenhum livro encontrado</h5>
-            <p class="mb-0">Comece a adicionar livros ao acervo da biblioteca.</p>
-            <a href="{% url 'cadastrar_livro' %}" class="btn btn-primary mt-3">
-                <i class="bi bi-plus-circle"></i> Adicionar Livro
+            <p class="mb-3">Sua busca não retornou resultados. Tente outro termo!</p>
+            <a href="{% url 'lista_livros' %}" class="btn btn-primary">
+                <i class="bi bi-arrow-left"></i> Voltar ao Acervo
             </a>
         </div>
     </div>
@@ -88,7 +106,7 @@
 {% if livros %}
 <div class="text-center mt-4">
     <p class="text-muted">
-        <strong>Total de livros:</strong> {{ livros.count }}
+        <strong>Total encontrado:</strong> {{ livros.count }} livro{% if livros.count != 1 %}s{% endif %}
     </p>
 </div>
 {% endif %}

@@ -1,0 +1,47 @@
+{% extends 'livros/base.html' %}
+
+{% block title %}Confirmar Exclusão - Biblioteca Escolar{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-exclamation-triangle"></i> Confirmar Exclusão
+                </h4>
+            </div>
+
+            <div class="card-body text-center py-5">
+                <i class="bi bi-trash" style="font-size: 4rem; color: #e74c3c;"></i>
+
+                <h5 class="mt-4 mb-3">Tem certeza que deseja excluir este livro?</h5>
+
+                <div class="alert alert-warning">
+                    <p class="mb-1">
+                        <strong>{{ livro.titulo }}</strong>
+                    </p>
+                    <small>por {{ livro.autor }}</small>
+                </div>
+
+                <p class="text-muted mb-4">
+                    Esta ação <strong>não pode ser desfeita</strong>. O livro será removido permanentemente do banco de
+                    dados.
+                </p>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a href="{% url 'lista_livros' %}" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
+                    <form method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Confirmar Exclusão
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
