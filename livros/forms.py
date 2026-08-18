@@ -1,5 +1,5 @@
 from django import forms
-from .models import Livro
+from .models import Livro, Usuario
 
 
 class LivroForm(forms.ModelForm):
@@ -12,4 +12,16 @@ class LivroForm(forms.ModelForm):
             'ano_publicacao',
             'isbn',
             'disponivel',
+        ]
+class UsuarioForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = [
+            'nome',
+            'email',
+            'cpf',
+            'matricula',
+            'turma',
+            'telefone',
+            'ativo',
         ]

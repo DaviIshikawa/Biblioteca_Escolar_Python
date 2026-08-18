@@ -32,4 +32,28 @@ urlpatterns = [
         views.excluir_livro,
         name='excluir_livro'
     ),
+
+        path(
+        'usuarios/',
+        views.lista_usuarios,
+        name='lista_usuarios'
+    ),
+
+    path(
+        'usuarios/cadastrar/',
+        views.cadastrar_usuario,
+        name='cadastrar_usuario'
+    ),
+
+    path(
+        'usuarios/editar/<int:id>/',
+        views.editar_usuario,
+        name='editar_usuario'
+    ),
+
+    path(
+        'usuarios/excluir/<int:id>/',
+        views.excluir_usuario,
+        name='excluir_usuario'
+    ),
 ]

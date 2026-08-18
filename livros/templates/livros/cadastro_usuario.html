@@ -1,0 +1,106 @@
+{% extends 'livros/base.html' %}
+
+{% block title %}Cadastrar Usuário - Biblioteca Escolar{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-person-plus"></i> Cadastrar Usuário
+                </h4>
+            </div>
+
+            <div class="card-body">
+                <form method="POST" novalidate>
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="id_nome" class="form-label fw-bold">Nome *</label>
+                        {{ form.nome }}
+                        {% if form.nome.errors %}
+                        <div class="alert alert-danger mt-2 mb-0">{{ form.nome.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="id_email" class="form-label fw-bold">Email *</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                <div class="alert alert-danger mt-2 mb-0">{{ form.email.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="id_cpf" class="form-label fw-bold">CPF *</label>
+                                {{ form.cpf }}
+                                {% if form.cpf.errors %}
+                                <div class="alert alert-danger mt-2 mb-0">{{ form.cpf.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="id_matricula" class="form-label fw-bold">Matrícula *</label>
+                                {{ form.matricula }}
+                                {% if form.matricula.errors %}
+                                <div class="alert alert-danger mt-2 mb-0">{{ form.matricula.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_turma" class="form-label fw-bold">Turma</label>
+                                {{ form.turma }}
+                                {% if form.turma.errors %}
+                                <div class="alert alert-danger mt-2 mb-0">{{ form.turma.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_telefone" class="form-label fw-bold">Telefone</label>
+                                {{ form.telefone }}
+                                {% if form.telefone.errors %}
+                                <div class="alert alert-danger mt-2 mb-0">{{ form.telefone.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            {{ form.ativo }}
+                            <label class="form-check-label" for="id_ativo">
+                                Usuário ativo
+                            </label>
+                        </div>
+                        {% if form.ativo.errors %}
+                        <div class="alert alert-danger mt-2 mb-0">{{ form.ativo.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'lista_usuarios' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Voltar
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

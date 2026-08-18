@@ -1,0 +1,39 @@
+{% extends 'livros/base.html' %}
+
+{% block title %}Excluir Usuário - Biblioteca Escolar{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-exclamation-triangle"></i> Confirmar Exclusão
+                </h4>
+            </div>
+
+            <div class="card-body">
+                <p>Tem certeza que deseja excluir o usuário abaixo?</p>
+
+                <ul class="list-unstyled">
+                    <li><strong>Nome:</strong> {{ usuario.nome }}</li>
+                    <li><strong>Matrícula:</strong> {{ usuario.matricula }}</li>
+                    <li><strong>Email:</strong> {{ usuario.email }}</li>
+                </ul>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'lista_usuarios' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Excluir
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
