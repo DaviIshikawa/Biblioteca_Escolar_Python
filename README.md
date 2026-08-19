@@ -1,5 +1,9 @@
 # 📚 Biblioteca Escolar - Sistema de Gerenciamento de Acervo
 
+## Documentacao apresentativa
+
+A documentacao completa do projeto, com resumo, objetivos, integrantes, tecnologias, funcionalidades, estrutura e conclusao, esta disponivel em [DOCUMENTACAO_APRESENTATIVA.md](DOCUMENTACAO_APRESENTATIVA.md).
+
 ## Visão Geral
 
 **Projeto:** Biblioteca Escolar  
